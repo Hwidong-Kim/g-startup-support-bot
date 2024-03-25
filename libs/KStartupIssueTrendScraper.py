@@ -55,12 +55,10 @@ class KStartupIssueTrendScraper:
             json.dump(data, f, indent=4, ensure_ascii=False)
 
     def scrape_and_save(self, pn):
-        loaded_save_point = self.load_from_json("save_point.json")['save-point']
+        loaded_save_point = self.load_from_json("./log/save_point.json")['save-point']
         page_number = pn
         save_point = self.get_main(page_number, loaded_save_point)
-        self.save_to_json({'save-point': save_point}, 'save_point.json')
-        print(self.issue_trend_result)
+        self.save_to_json({'save-point': save_point}, './log/save_point.json')
+        return self.issue_trend_result
 
-scraper = KStartupIssueTrendScraper()
-scraper.scrape_and_save(1)
 
