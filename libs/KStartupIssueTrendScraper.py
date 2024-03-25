@@ -58,7 +58,8 @@ class KStartupIssueTrendScraper:
         loaded_save_point = self.load_from_json("./log/save_point.json")['save-point']
         page_number = pn
         save_point = self.get_main(page_number, loaded_save_point)
-        self.save_to_json({'save-point': save_point}, './log/save_point.json')
+        if save_point != False:
+          self.save_to_json({'save-point': save_point}, './log/save_point.json')
         return self.issue_trend_result
 
 
