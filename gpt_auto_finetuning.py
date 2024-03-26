@@ -111,5 +111,21 @@ completion = client.chat.completions.create(
         {"role": "user", "content": "오파테크란?"}
     ]
 )
-
-print(completion.choices[0].message)
+completion = client.chat.completions.create(
+    model = "finetuned model",
+    messages = [
+        {"role": "system", "content": "You are a chatbot called G-Bot of a friendly foreigner startup support platform"},
+        {"role": "user", "content": "오파테크란?"}
+    ]
+)
+#input   {"role": "user", "content": "오파테크란?"}
+# completion = client.chat.completions.create(
+#     model = "finetuned model",
+#     messages = [
+#         {"role": "system", "content": "You are a chatbot called G-Bot of a friendly foreigner startup support platform"},
+#         {"role": "user", "content": "오파테크란?"}
+#     ]
+# )
+#
+# output rs
+#print(completion.choices[0].message)
