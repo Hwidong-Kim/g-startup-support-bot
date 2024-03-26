@@ -13,6 +13,7 @@ save_path = "./auto_data.jsonl"
 
 raw_data = scraper.scrape_and_save(1)
 
+#print(len(raw_data))
 
 def createJson_chat(conversation, file_path):
     data = {"messages": []}
@@ -23,8 +24,8 @@ def createJson_chat(conversation, file_path):
 
     with open(file_path, "a", encoding="utf-8") as jsonl_file:
         jsonl_file.write(json.dumps(data, ensure_ascii=False) + "\n")
-        
-        
+
+
 def auto_text_to_finetuning_data(text, save_path):
 
     keywords = []
@@ -40,9 +41,9 @@ def auto_text_to_finetuning_data(text, save_path):
                 keyword = re.findall(r'<(.*?)>', text)[0]
 
                 first_index = text.find(keyword)
-                second_index = text.find(keyword, first_index + 1)
+                second_index = text.find("\n", first_index + 1)
 
-                content = text[second_index-1:]
+                content = text[second_index+1:]
 
                 if keyword not in keywords:
                     keywords.append(keyword)
@@ -86,10 +87,14 @@ client = OpenAI(
     api_key= OPENAI_API_KEY
 )
 
+
+
 train_file = client.files.create(
-    file=Path("./auto_data.jsonl"),
+    file=Path(save_path),
     purpose="fine-tune",
 )
+
+
 
 client.fine_tuning.jobs.create(
     training_file=train_file.id,
