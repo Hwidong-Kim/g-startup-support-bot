@@ -120,15 +120,14 @@ def chat_service(content):
 #     model = "finetuned model",
 #     messages = [
 #         {"role": "system", "content": "You are a chatbot called G-Bot of a friendly foreigner startup support platform"},
-#         {"role": "user", "content": "������ũ��?"}
+#         {"role": "user", "content": "오파테크란?"}
 #     ]
 # )
-#input   {"role": "user", "content": "������ũ��?"}
+#input   {"role": "user", "content": "오파테크란?"}
 # completion = client.chat.completions.create(
 #     model = "finetuned model",
 #     messages = [
 #         {"role": "system", "content": "You are a chatbot called G-Bot of a friendly foreigner startup support platform"},
-#         {"role": "user", "content": "������ũ��?"}
 #         {"role": "user", "content": "오파테크란?"}
 #     ]
 # )
