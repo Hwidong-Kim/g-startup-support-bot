@@ -1,4 +1,4 @@
-from libs import KStartupIssueTrendScraper
+
 import json
 import os
 import time
@@ -6,12 +6,14 @@ import re
 
 from openai import OpenAI
 from pathlib import Path
-
-scraper = KStartupIssueTrendScraper.KStartupIssueTrendScraper()
+def load_from_json(filename):
+    with open(filename, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    return data
 
 save_path = "./auto_data.jsonl"
 
-raw_data = scraper.scrape_and_save(1)
+raw_data = load_from_json("./data/data.json")
 
 #print(len(raw_data))
 
@@ -103,29 +105,34 @@ client.fine_tuning.jobs.create(
     "n_epochs":13
   }
 )
+def chat_service(content):
+    completion = client.chat.completions.create(
+        model = "finetuned model",
+        messages = [
+            {"role": "system", "content": "You are a chatbot called G-Bot of a friendly foreigner startup support platform"},
+            {"role": "user", "content": content}
+        ]
+    )
+    return completion.choices[0].message
 
-completion = client.chat.completions.create(
-    model = "finetuned model",
-    messages = [
-        {"role": "system", "content": "You are a chatbot called G-Bot of a friendly foreigner startup support platform"},
-        {"role": "user", "content": "오파테크란?"}
-    ]
-)
-completion = client.chat.completions.create(
-    model = "finetuned model",
-    messages = [
-        {"role": "system", "content": "You are a chatbot called G-Bot of a friendly foreigner startup support platform"},
-        {"role": "user", "content": "오파테크란?"}
-    ]
-)
 #input   {"role": "user", "content": "오파테크란?"}
 # completion = client.chat.completions.create(
 #     model = "finetuned model",
 #     messages = [
 #         {"role": "system", "content": "You are a chatbot called G-Bot of a friendly foreigner startup support platform"},
+#         {"role": "user", "content": "������ũ��?"}
+#     ]
+# )
+#input   {"role": "user", "content": "������ũ��?"}
+# completion = client.chat.completions.create(
+#     model = "finetuned model",
+#     messages = [
+#         {"role": "system", "content": "You are a chatbot called G-Bot of a friendly foreigner startup support platform"},
+#         {"role": "user", "content": "������ũ��?"}
 #         {"role": "user", "content": "오파테크란?"}
 #     ]
 # )
 #
 # output rs
+#print(completion.choices[0].message)
 #print(completion.choices[0].message)

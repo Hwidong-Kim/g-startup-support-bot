@@ -53,12 +53,21 @@ class KStartupIssueTrendScraper:
     def save_to_json(self, data, filename, encoding='utf-8'):
         with open(filename, 'w', encoding=encoding) as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
+    def append_to_json(self, data, filename, encoding='utf-8'):
+        with open(filename, 'a', encoding=encoding) as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
+            f.write('\n')  # 각각의 JSON 객체를 새로운 줄에 저장하기 위해 줄 바꿈 추가
 
     def scrape_and_save(self, pn):
         loaded_save_point = self.load_from_json("./log/save_point.json")['save-point']
+        loaded_data = self.load_from_json("./data/data.json")
         page_number = pn
         save_point = self.get_main(page_number, loaded_save_point)
-        self.save_to_json({'save-point': save_point}, './log/save_point.json')
+        if save_point != False:
+          self.save_to_json({'save-point': save_point}, './log/save_point.json')
+        for e in self.issue_trend_result:
+            loaded_data.append(e)
+        self.save_to_json(loaded_data, './data/data.json')
         return self.issue_trend_result
 
 
