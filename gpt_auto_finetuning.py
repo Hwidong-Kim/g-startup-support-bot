@@ -65,16 +65,16 @@ def auto_text_to_finetuning_data(text, save_path):
         if jongsung == 0: 
             keyword_aug_list = [
                 keyword,
-                keyword + "°¡ ¹¹¾ß?",
-                keyword + "¿¡ ´ëÇØ ¼³¸íÇØÁà",
-                keyword + "¶õ?"
+                keyword + "ê°€ ë­ì•¼?",
+                keyword + "ì— ëŒ€í•´ ì„¤ëª…í•´ì¤˜",
+                keyword + "ë€?"
             ]
         else:  
             keyword_aug_list = [
                 keyword,
-                keyword + "ÀÌ ¹¹¾ß?",
-                keyword + "¿¡ ´ëÇØ ¼³¸íÇØÁà",
-                keyword + "ÀÌ¶õ?"
+                keyword + "ì´ ë­ì•¼?",
+                keyword + "ì— ëŒ€í•´ ì„¤ëª…í•´ì¤˜",
+                keyword + "ì´ë€?"
             ]
 
         for keyword_aug in keyword_aug_list:
@@ -119,15 +119,15 @@ def chat_service(content):
 #     model = "finetuned model",
 #     messages = [
 #         {"role": "system", "content": "You are a chatbot called G-Bot of a friendly foreigner startup support platform"},
-#         {"role": "user", "content": "¿ÀÆÄÅ×Å©¶õ?"}
+#         {"role": "user", "content": "ì˜¤íŒŒí…Œí¬ë€?"}
 #     ]
 # )
-#input   {"role": "user", "content": "¿ÀÆÄÅ×Å©¶õ?"}
+#input   {"role": "user", "content": "ì˜¤íŒŒí…Œí¬ë€?"}
 # completion = client.chat.completions.create(
 #     model = "finetuned model",
 #     messages = [
 #         {"role": "system", "content": "You are a chatbot called G-Bot of a friendly foreigner startup support platform"},
-#         {"role": "user", "content": "¿ÀÆÄÅ×Å©¶õ?"}
+#         {"role": "user", "content": "ì˜¤íŒŒí…Œí¬ë€?"}
 #     ]
 # )
 #
