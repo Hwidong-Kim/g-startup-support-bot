@@ -115,6 +115,7 @@ def chat_service(content):
     )
     return completion.choices[0].message
 
+#input   {"role": "user", "content": "오파테크란?"}
 # completion = client.chat.completions.create(
 #     model = "finetuned model",
 #     messages = [
@@ -132,4 +133,5 @@ def chat_service(content):
 # )
 #
 # output rs
+#print(completion.choices[0].message)
 #print(completion.choices[0].message)
