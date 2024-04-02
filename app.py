@@ -1,29 +1,42 @@
 from flask import Flask,request, render_template
 from flask_restx import Api, Resource, reqparse,fields
-#from gpt_auto_finetuning import chat_service
+from kChatBot import kChatBot
+#from flask_cors import CORS, cross_origin
+import ssl
+import json
+
+
+# Loading cert
+#ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+#ssl_context.load_cert_chain(certfile='C:/nginx-1.25.3/conf/certificate.crt', keyfile='C:/nginx-1.25.3/conf/private.key')
+    
+
+chatbot = kChatBot()
+OPENAI_API_KEY = "keyyy"
+chatbot.initialize_openai(OPENAI_API_KEY)
+#chatbot.initialize_finetuning_data("./data/data.json")
+#chatbot.set_save_path("./auto_data.jsonl")
+#chatbot.auto_text_to_finetuning_data()
+#chatbot.finetune_model()
+print(chatbot.chat_service("오피테크가 뭐야?"))
 
 app = Flask(__name__)
+app.config['CORS_HEADERS'] = 'Content-Type'
+#cors = CORS(app)
 
-# Swagger를 위한 설정
-api = Api(app, version='1.0', title='API 문서', description='Swagger 문서', doc="/api-docs")
 
-test_api = api.namespace('', description='CHAT API')
-chat_parser = reqparse.RequestParser()
-chat_parser.add_argument('message', type=str, required=True, help='메시지 필드가 필요합니다.')
-chat_model = api.model('Chat Model', {
-    'message': fields.String(required=True, description='채팅 메시지')
-})
-@test_api.route("/chat", methods=["POST"])
-class Chat(Resource):
-    @test_api.expect(chat_model, validate=True)  # 요청 모델 적용
-    def post(self):
-        args = chat_parser.parse_args()
-        message = args['message']
-
-        #response_message = chat_service(message)
-        return {'response_message': "response_message"}, 200
-
-# Swagger 문서 라우트 등록
+@app.route('/chat', methods=['POST'])
+#@cross_origin()
+def chat():
+    ret = {}
+    global chatbot
+    try:
+        ret['msg'] = chatbot.chat_service(str(request.form['msg']))
+    except:
+        ret['msg'] = 'shut up and dance'
+    return json.dumps(ret, ensure_ascii=False)
+    
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(host='0.0.0.0', port=443, threaded=True, debug=False, ssl_context=ssl_context)
+    app.run(host='0.0.0.0', port=80, threaded=True, debug=False)
