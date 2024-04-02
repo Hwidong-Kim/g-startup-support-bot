@@ -11,12 +11,25 @@ import json
 #ssl_context.load_cert_chain(certfile='C:/nginx-1.25.3/conf/certificate.crt', keyfile='C:/nginx-1.25.3/conf/private.key')
     
 
+all_path = "./all_data.jsonl"
+update_path = "./update_data.jsonl"
+
 chatbot = kChatBot()
 OPENAI_API_KEY = "keyyy"
 chatbot.initialize_openai(OPENAI_API_KEY)
 #chatbot.initialize_finetuning_data("./data/data.json")
-#chatbot.set_save_path("./auto_data.jsonl")
+#chatbot.set_save_path(all_path)
+#chatbot.set_save_path(update_path)
 #chatbot.auto_text_to_finetuning_data()
+
+with jsonlines.open(all_path, 'r') as all_file:
+        with jsonlines.open(update_path, 'w') as update_file:
+            for item in all_file:
+                update_file.write(item)
+           
+for _ in range(2):
+    auto_text_to_finetuning_data(raw_data, update_path)
+    
 #chatbot.finetune_model()
 
 app = Flask(__name__)
