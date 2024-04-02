@@ -9,12 +9,19 @@ from pathlib import Path
 
 @dataclass 
 class kChatBot:
-    save_path: str = "./auto_data.jsonl"
+    all_path = "./all_data.jsonl"
+    update_path = "./update_data.jsonl"
     raw_data: json = None
     client: OpenAI = None
     def set_save_path(self, path) -> None:
         self.save_path = path
 
+    def set_all_path(self, path) -> None:
+        self.all_path = path
+
+    def set_update_path(self, path) -> None:
+        self.update_path = path
+ 
     def initialize_openai(self, key) -> None:
         self.client = OpenAI(api_key= key)
     def initialize_finetuning_data(self, filename = "./data/data.json") -> None: #
@@ -22,7 +29,7 @@ class kChatBot:
             self.raw_data = json.load(f)
     def finetune_model(self):
         train_file = self.client.files.create(
-            file=Path(self.save_path),
+            file=Path(self.update_path),
             purpose="fine-tune",
         )
         self.client.fine_tuning.jobs.create(
@@ -48,7 +55,7 @@ class kChatBot:
             ]
         )
         return completion.choices[0].message.content
-    def auto_text_to_finetuning_data(self):
+    def auto_text_to_finetuning_data(self, path):
 
         keywords = []
         contents = []
@@ -98,7 +105,17 @@ class kChatBot:
                 ]
 
             for keyword_aug in keyword_aug_list:
-                self.createJson_chat([(keyword_aug, content)], self.save_path)
+                self.createJson_chat([(keyword_aug, content)], path)
+
+
+    def create_update_jsonfile(self, all_path, update_path):
+        with jsonlines.open(all_path, 'r') as all_file:
+            with jsonlines.open(update_path, 'w') as update_file:
+                for item in all_file:
+                    update_file.write(item)
+
+
+
             
             
 
