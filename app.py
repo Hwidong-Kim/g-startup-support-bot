@@ -18,7 +18,6 @@ chatbot.initialize_openai(OPENAI_API_KEY)
 #chatbot.set_save_path("./auto_data.jsonl")
 #chatbot.auto_text_to_finetuning_data()
 #chatbot.finetune_model()
-print(chatbot.chat_service("오피테크가 뭐야?"))
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
